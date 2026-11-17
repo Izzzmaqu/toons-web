@@ -1,4 +1,4 @@
-# Toons — web (frontend)
+# Toons - web (frontend)
 
 Sitio web de la plataforma de lectura de cómics "Toons", hecho con Next.js 16 (App Router) y Tailwind, solo en español.
 La API vive en otro repositorio: `toons-backend`. Este sitio necesita que la API esté corriendo para iniciar sesión.
