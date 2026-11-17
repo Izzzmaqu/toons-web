@@ -15,9 +15,17 @@ export const TEXTOS = {
   encabezado: {
     menuUsuario: "Menú de usuario",
     cerrarSesion: "Cerrar sesión",
+    etiquetaBuscador: "Buscar obras",
+    placeholderBuscador: "Buscar por título",
+    botonBuscar: "Buscar",
   },
   inicio: {
-    bienvenida: "Bienvenido a",
-    descripcion: "Tu próxima lectura está a punto de empezar.",
+    destacada: "Lo más reciente",
+    recientes: "Recientes",
+    tendencias: "Tendencias",
+    resultadosPara: "Resultados para",
+    sinResultados: "No encontramos obras con ese título.",
+    porCreador: "por",
+    textoAlternativoPortada: "Portada de",
   },
 } as const;

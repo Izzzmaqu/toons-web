@@ -5,7 +5,9 @@ import { useState } from "react";
 import { NOMBRE_PLATAFORMA } from "@/lib/constantes";
 import { TEXTOS } from "@/lib/textos";
 
-export function Encabezado({ nombreUsuario }: { nombreUsuario: string }) {
+type PropiedadesEncabezado = { nombreUsuario: string; consulta: string };
+
+export function Encabezado({ nombreUsuario, consulta }: PropiedadesEncabezado) {
   const router = useRouter();
   const [menuAbierto, setMenuAbierto] = useState(false);
 
@@ -17,8 +19,23 @@ export function Encabezado({ nombreUsuario }: { nombreUsuario: string }) {
 
   return (
     <header className="border-b border-texto/10 bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
         <span className="text-xl font-bold text-primario">{NOMBRE_PLATAFORMA}</span>
+
+        <form role="search" method="get" action="/" className="order-last flex w-full gap-2 sm:order-none sm:w-96">
+          <input
+            type="search"
+            name="titulo"
+            defaultValue={consulta}
+            aria-label={TEXTOS.encabezado.etiquetaBuscador}
+            placeholder={TEXTOS.encabezado.placeholderBuscador}
+            className="w-full rounded-md border border-texto/20 bg-fondo px-3 py-2 text-sm focus:border-primario focus:outline-none"
+          />
+          <button type="submit" className="rounded-md bg-acento px-4 py-2 text-sm font-semibold text-white">
+            {TEXTOS.encabezado.botonBuscar}
+          </button>
+        </form>
+
         <div className="relative">
           <button
             type="button"
@@ -30,7 +47,7 @@ export function Encabezado({ nombreUsuario }: { nombreUsuario: string }) {
             {nombreUsuario}
           </button>
           {menuAbierto && (
-            <div className="absolute right-0 mt-2 w-44 rounded-md border border-texto/10 bg-white p-1 shadow-md">
+            <div className="absolute right-0 z-10 mt-2 w-44 rounded-md border border-texto/10 bg-white p-1 shadow-md">
               <button
                 type="button"
                 onClick={cerrarSesion}
