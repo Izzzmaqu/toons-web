@@ -71,3 +71,5 @@ Para usar imágenes propias: copia tus archivos a `public/portadas/` con **el mi
 ## Buscador
 
 El buscador del encabezado es un formulario HTML normal (`GET /?titulo=...`): la página de inicio lee el parámetro `titulo` y le pide a la API las obras que coinciden, sin distinguir mayúsculas.
+
+La cookie dura 1 hora (`DURACION_SESION_EN_SEGUNDOS` en `src/lib/constantes.ts`), igual que el token del backend (`Jwt:MinutosVigencia`, 60). Si cambias uno, cambia el otro.
