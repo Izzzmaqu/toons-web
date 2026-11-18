@@ -41,7 +41,7 @@ Descarga Node.js desde https://nodejs.org (versión LTS). Con una versión más 
    npm run dev
    ```
 
-5. Abre http://localhost:3000 en el navegador. Sin sesión te lleva a la pantalla de login.
+5. Abre http://localhost:3000 en el navegador. Sin sesión te lleva a la pantalla de login; desde ahí puedes entrar con un usuario de ejemplo o crear una cuenta nueva en `/registro` (se crea con el rol `lector` y entra directo).
 
 Otros comandos:
 
@@ -71,9 +71,11 @@ Tras 5 contraseñas incorrectas seguidas la cuenta se bloquea 5 minutos.
 
 ```
 src/app/login         Pantalla de login
+src/app/registro      Pantalla de registro (crea la cuenta y entra directo)
 src/app/page.tsx      Inicio (protegido): portada destacada, filas Recientes y Tendencias y buscador por título
-src/app/api/sesion    Route handler: guarda/borra la cookie httpOnly con el token
-src/proxy.ts          Protege el inicio: sin cookie redirige a /login (antes se llamaba middleware)
+src/app/api/sesion    Route handler del login (POST) y del cierre de sesión (DELETE): guarda/borra la cookie httpOnly con el token
+src/app/api/registro  Route handler del registro: crea la cuenta en la API y guarda la misma cookie de sesión
+src/proxy.ts          Protege el inicio (sin cookie redirige a /login) y manda /registro a / si ya hay sesión (antes se llamaba middleware)
 src/components        Componentes de interfaz (Encabezado, TarjetaObra, FilaObras, PortadaDestacada...)
 public/portadas       Portadas de relleno (portada-01.svg a portada-10.svg)
 src/lib               Constantes, textos, errores, validación y cliente de la API
@@ -89,7 +91,7 @@ El backend responde solo **códigos** (por ejemplo `auth.credenciales_invalidas`
 
 ## Sesión
 
-El token JWT viaja solo en una cookie `httpOnly` que pone el route handler `src/app/api/sesion/route.ts`; el código del navegador nunca lo ve. `src/proxy.ts` redirige a `/login` si no hay cookie y la página de inicio valida el token con la API en cada visita.
+El token JWT viaja solo en una cookie `httpOnly` que ponen los route handlers de login y de registro (comparten la lógica en `src/lib/rutasDeSesion.ts`); el código del navegador nunca lo ve. `src/proxy.ts` redirige a `/login` si no hay cookie y la página de inicio valida el token con la API en cada visita.
 
 La cookie dura 1 hora (`DURACION_SESION_EN_SEGUNDOS` en `src/lib/constantes.ts`), igual que el token del backend (`Jwt:MinutosVigencia`, 60). Si cambias uno, cambia el otro.
 
