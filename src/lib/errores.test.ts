@@ -10,11 +10,31 @@ const CODIGOS_AUTH_DEL_BACKEND = [
   "auth.cuenta_bloqueada",
 ];
 
+const CODIGOS_REGISTRO_DEL_BACKEND = [
+  "registro.nombre_obligatorio",
+  "registro.nombre_largo",
+  "registro.correo_en_uso",
+];
+
 describe("mensajeDeError", () => {
   it("define los mismos códigos de auth que el backend", () => {
     const codigosAuth = Object.values(CODIGOS_ERROR).filter((codigo) => codigo.startsWith("auth."));
 
     expect(codigosAuth).toEqual(CODIGOS_AUTH_DEL_BACKEND);
+  });
+
+  it("define los códigos de registro del backend", () => {
+    const codigosRegistro = Object.values(CODIGOS_ERROR).filter((codigo) => codigo.startsWith("registro."));
+
+    expect(codigosRegistro).toEqual(CODIGOS_REGISTRO_DEL_BACKEND);
+  });
+
+  it.each(CODIGOS_REGISTRO_DEL_BACKEND)("el código %s tiene su propio mensaje", (codigo) => {
+    expect(mensajeDeError(codigo)).not.toBe(MENSAJE_GENERICO);
+  });
+
+  it("el correo en uso tiene un mensaje claro", () => {
+    expect(mensajeDeError(CODIGOS_ERROR.correoEnUso)).toBe("Ese correo ya está registrado.");
   });
 
   it.each(CODIGOS_AUTH_DEL_BACKEND)("el código %s tiene su propio mensaje", (codigo) => {
