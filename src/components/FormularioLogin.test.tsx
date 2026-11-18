@@ -21,8 +21,8 @@ function respuestaDeError(estado: number, codigo: string) {
 
 async function llenarYEnviar(correo = CORREO, contrasena = CONTRASENA) {
   const usuario = userEvent.setup();
-  if (correo) await usuario.type(screen.getByLabelText(TEXTOS.login.etiquetaCorreo), correo);
-  if (contrasena) await usuario.type(screen.getByLabelText(TEXTOS.login.etiquetaContrasena), contrasena);
+  if (correo) await usuario.type(screen.getByLabelText(TEXTOS.comun.etiquetaCorreo), correo);
+  if (contrasena) await usuario.type(screen.getByLabelText(TEXTOS.comun.etiquetaContrasena), contrasena);
   await usuario.click(screen.getByRole("button", { name: TEXTOS.login.botonIngresar }));
   return usuario;
 }
@@ -63,13 +63,13 @@ describe("FormularioLogin", () => {
 
   it("el botón del ojo muestra y oculta la contraseña", async () => {
     const usuario = userEvent.setup();
-    const campo = screen.getByLabelText(TEXTOS.login.etiquetaContrasena);
+    const campo = screen.getByLabelText(TEXTOS.comun.etiquetaContrasena);
     expect(campo).toHaveAttribute("type", "password");
 
-    await usuario.click(screen.getByRole("button", { name: TEXTOS.login.mostrarContrasena }));
+    await usuario.click(screen.getByRole("button", { name: TEXTOS.comun.mostrarContrasena }));
     expect(campo).toHaveAttribute("type", "text");
 
-    await usuario.click(screen.getByRole("button", { name: TEXTOS.login.ocultarContrasena }));
+    await usuario.click(screen.getByRole("button", { name: TEXTOS.comun.ocultarContrasena }));
     expect(campo).toHaveAttribute("type", "password");
   });
 

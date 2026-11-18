@@ -34,6 +34,15 @@ export function iniciarSesionEnApi(correo: string, contrasena: string): Promise<
   });
 }
 
+export function registrarEnApi(nombre: string, correo: string, contrasena: string): Promise<Response> {
+  return fetch(urlDeApi("/api/autenticacion/registro"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nombre, correo, contrasena }),
+    cache: "no-store",
+  });
+}
+
 export async function obtenerPerfil(token: string): Promise<Perfil | null> {
   const respuesta = await consultarApi("/api/autenticacion/perfil", token);
   return respuesta.ok ? respuesta.json() : null;
