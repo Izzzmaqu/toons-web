@@ -51,6 +51,10 @@ npm run lint      # revisión de estilo
 npm run build     # compilación de producción
 ```
 
+## Aviso conocido de `npm audit`
+
+`npm audit` puede reportar una vulnerabilidad de `picomatch` (GHSA-fc5q-39xc-vjpf, ReDoS). Afecta solo a herramientas de desarrollo (pruebas y lint), no al sitio en producción, y a la fecha no existe una versión corregida (la última, 4.0.7, también está afectada). No uses `npm audit fix --force`: baja `vitest` a una versión antigua. Vuelve a revisarlo cuando salga una versión corregida.
+
 ## Usuarios de ejemplo (ficticios, solo desarrollo)
 
 | Correo | Contraseña | Rol |
