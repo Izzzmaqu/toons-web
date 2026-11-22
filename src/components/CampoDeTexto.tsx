@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { mensajeDeError } from "@/lib/errores";
 
 type PropiedadesCampo = {
@@ -12,10 +12,13 @@ type PropiedadesCampo = {
   placeholder?: string;
   codigoDeError?: string;
   accion?: ReactNode;
+  inputRef?: Ref<HTMLInputElement>;
 };
 
 const CLASES_CAMPO =
   "w-full rounded-md border border-texto/20 bg-white px-3 py-2 text-sm focus:border-primario focus:outline-none disabled:opacity-50";
+
+const CLASES_CAMPO_ERROR = "border-peligro focus:border-peligro";
 
 export function CampoDeTexto({
   id,
@@ -28,7 +31,11 @@ export function CampoDeTexto({
   placeholder,
   codigoDeError,
   accion,
+  inputRef,
 }: PropiedadesCampo) {
+  const idError = `${id}-error`;
+  const tieneError = Boolean(codigoDeError);
+
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="text-sm font-medium">
@@ -36,6 +43,7 @@ export function CampoDeTexto({
       </label>
       <div className="relative">
         <input
+          ref={inputRef}
           id={id}
           type={tipo}
           autoComplete={autoComplete}
@@ -43,11 +51,23 @@ export function CampoDeTexto({
           onChange={(evento) => alCambiar(evento.target.value)}
           placeholder={placeholder}
           disabled={deshabilitado}
-          className={accion ? `${CLASES_CAMPO} pr-10` : CLASES_CAMPO}
+          aria-invalid={tieneError}
+          aria-describedby={tieneError ? idError : undefined}
+          className={[
+            CLASES_CAMPO,
+            tieneError ? CLASES_CAMPO_ERROR : "",
+            accion ? "pr-10" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
         />
         {accion}
       </div>
-      {codigoDeError && <p className="text-xs text-peligro">{mensajeDeError(codigoDeError)}</p>}
+      {tieneError && (
+        <p id={idError} role="alert" className="text-xs text-peligro">
+          {mensajeDeError(codigoDeError)}
+        </p>
+      )}
     </div>
   );
 }
